@@ -1,0 +1,52 @@
+body {
+    width: 100vw;
+}
+
+/* Title */
+
+header {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-items: center;
+}
+
+h1,
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000;
+}
+
+/* Background setup */
+
+.background {
+    position: absolute;
+    z-index: -1;
+    width: 100vw;
+}
+
+#background-image {
+    width: 120%;
+    position: absolute;
+    left: -10%;
+    top: -600px;
+}
+
+/**** bird ****/
+.game-items {
+    position: relative;
+    height: 50vh;
+    border: 1px solid black;
+    margin-left: 0;
+    
+}
+
+#bird {
+    height: 50px;
+}
+
+/** tube **/
+
+#tube {
+    height: 250px;
+}
