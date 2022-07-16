@@ -1,5 +1,6 @@
 body {
-    width: 100vw;
+    max-width: 100vw;
+    overflow: hidden;
 }
 
 /* Title */
@@ -23,30 +24,34 @@ p {
     position: absolute;
     z-index: -1;
     width: 100vw;
+    border: 2px solid black;
+    
 }
 
 #background-image {
-    width: 120%;
+    width: 1800px;
     position: absolute;
-    left: -10%;
-    top: -600px;
+    top: -630px;
+    left: -140px;
 }
 
 /**** bird ****/
-.game-items {
-    position: relative;
-    height: 50vh;
+#game-items {
+    position: fixed;
+    width: 100%;
+    height: 473px;
     border: 1px solid black;
-    margin-left: 0;
-    
+    overflow: hidden;
 }
 
 #bird {
     height: 50px;
 }
 
-/** tube **/
+/** game msg **/
 
-#tube {
-    height: 250px;
+#winning-msg,
+.message,
+button {
+    display: none;
 }
