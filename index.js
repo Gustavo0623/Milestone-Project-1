@@ -13,7 +13,7 @@ function newTubes() {
         tube.style.transform = 'rotate(0deg)'
     }
     tube.style.position = 'absolute'
-    tube.style.height = '50%'
+    tube.style.height = '40%'
     tube.style.width = '5%'
     tube.style.transf = '180deg'
     document.getElementById('game-items').append(tube)
@@ -52,3 +52,4 @@ function bottomTube () {
 // TEST invoking functions to add tubes
 
 topTube()
+bottomTube()
