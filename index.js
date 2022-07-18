@@ -1,6 +1,7 @@
 // variables for bird and tube
 const bird = document.getElementById('bird')
-let tubeTop = false
+const tubeStartX = 1430
+const tubeStartY = getRandomNumber(-220, -20)
 
 // math random function learned from 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random'
 function getRandomNumber(min, max) {
@@ -16,11 +17,6 @@ function getRandomNumber(min, max) {
 function newTubes(url) {
     let tube = document.createElement('img')
     tube.src = url
-    if(tubeTop == true) {
-        tube.style.transform = 'rotate(180deg)'
-    } else {
-        tube.style.transform = 'rotate(0deg)'
-    }
     tube.style.position = 'absolute'
     tube.style.height = '60%'
     tube.style.width = '5%'
@@ -35,7 +31,9 @@ function newTubes(url) {
 
 // TEST invoking functions to add tubes
 
-newTubeSet(1300, getRandomNumber(-220, -20))
+// Create Tubeset
+
+const tubeSet = newTubeSet(tubeStartX, tubeStartY)
 
 // tube movement function
 
@@ -52,24 +50,42 @@ function newTubeSet(x,y) {
     bottomTube.style.bottom = y + 'px'
 
     function moveTubesLeft() {
+        function removeTubes(){
+            topTube.remove();
+            bottomTube.remove();
+        }
+
         if (direction === 'left') {
             x -= 1
         }
         topTube.style.left = x + 'px'
         bottomTube.style.left = x + 'px'
+
+        // If statements must be here!!!! **************
+        // to delete tubes after the tubes reach end of the screen
+        if (topTube.style.left <= 0 + 'px'){
+            removeTubes()
+        }
+        
+        if (topTube.style.left <= bird.style.right) {
+            if (topTube.style.bottom <= bird.style.top){
+                stop()
+            } else {
+                direction = 'left'
+            }
+        }
     }
 
     setInterval(moveTubesLeft, 1)
 
-    async function moveLeft(time) {
+    function moveLeft() {
         direction = 'left'
-        await sleep(time)
-        stop()
     }
 
     function stop() {
         direction = null
     }
+
 
     return {
         topTube: topTube,
@@ -79,8 +95,8 @@ function newTubeSet(x,y) {
     }
 }
 
-function sleep(time){
-    return new Promise(resolve => {
-        setTimeout(resolve, time)
-    })  
+function moveTubes() {
+    tubeSet.moveLeft()
 }
+moveTubes()
+

@@ -45,8 +45,8 @@ p {
 #bird {
     height: 50px;
     position: absolute;
-    bottom: 200px;
-    left: 300px;
+    top: 200px;
+    right: 900px;
 }
 
 /** game msg **/
