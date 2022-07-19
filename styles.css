@@ -42,13 +42,6 @@ p {
     overflow: hidden;
 }
 
-#bird {
-    height: 50px;
-    position: absolute;
-    top: 200px;
-    right: 900px;
-}
-
 /** game msg **/
 
 #winning-msg,
