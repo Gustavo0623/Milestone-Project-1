@@ -1,16 +1,30 @@
 // variables for bird and tube
 const bird = document.getElementById('bird')
-const goBird = placeBird(500, 200)
+const goBird = placeBird(500, 400)
 const tubeStartX = 1430
-const tubeStartY = getRandomNumber(-220, -20)
-console.log(tubeStartY)
+let tubeStartY = getRandomNumber(-220, -20)
+let score = 0
+let birdLeft;
+let birdBottom;
+let tubeLeft;
+let tubeBottom;
+let tCount= 1
+
+
+// increase score funcion 
+function scoreInc(){
+    for (let n = 0; n < 2; n++){
+        score += n
+    }
+}
+console.log('the score is now ' + score)
 
 // math random function learned from 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random'
 function getRandomNumber(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
 
-    return Math.floor(Math.random() * (max - min + 1) + min); 
+    return Math.floor(Math.random() * (max - min + 1) + min); // make it so that the number output sticks to a variable!!! CONTINUE HERE!!!!!!! 7/20
     //The maximum is inclusive and the minimum is inclusive
 }
   
@@ -27,6 +41,7 @@ function newBird(url) {
 }
 
 // place bird function
+
 
 function placeBird(x, y) {
     const element = newBird('assets/bird1.png')
@@ -70,7 +85,36 @@ function move(element) {
         element.style.bottom = y + 'px'
         
         function flyBird(){ 
+            // variables for bird and tube positioning set
+            // parseFloat() built in js function that converts property value into number (in this case removing the 'px' from the left and bottom property value)
+            birdLeft = parseFloat(goBird.element.style.left)
+            birdBottom = parseFloat(goBird.element.style.bottom)
+            tubeLeft = parseFloat(tubeSet.bottomTube.style.left)
+            tubeBottom = parseFloat(tubeSet.bottomTube.style.bottom)
+
+            //collision events functions
+            function collisionCheck (){
+                if(birdLeft == tubeLeft + 62){
+                    tCount++
+                }
+                if(birdLeft >= tubeLeft + 62){
+                    moveTubes()
+                    return;
+                }
+                if(birdBottom <= tubeBottom + 367){
+                    collisionEvents()
+                }
+                if(birdBottom >= tubeBottom + 460){
+                    collisionEvents() 
+                }
+            } 
+            function collisionEvents(){
+                direction = null
+                tubeSet.stop()
+            }
+
             if(direction === 'north'){
+                // fly limit
                 if (y >= 510){
                     direction = null
                 } else {
@@ -78,6 +122,7 @@ function move(element) {
                 }
             }
             if(direction === 'south'){
+                // floor collision  stop
                 if (y <= 85){
                     direction = null
                 } else {
@@ -85,8 +130,16 @@ function move(element) {
                 }
             }
 
+            if (birdLeft >= tubeLeft - 55 ){
+                collisionCheck()
+            }
+
+
+            
+
             element.style.left = x + 'px'
             element.style.bottom = y + 'px'
+
         }
         
         setInterval(flyBird, 1)
@@ -133,7 +186,7 @@ function newTubes(url) {
 
 // Create Tubeset
 
-const tubeSet = newTubeSet(tubeStartX, tubeStartY)
+let tubeSet = newTubeSet(tubeStartX, getRandomNumber(-220, -20))
 
 // tube movement function
 
@@ -164,10 +217,9 @@ function newTubeSet(x,y) {
         // If statements must be here!!!! **************
         // conditions to delete tubes after the tubes reach end of the screen + end game + game continue conditions
         if (topTube.style.left <= 0 + 'px'){
-            removeTubes()
-        }
-        if (topTube.style.left <= 668 + 'px' && topTube.style.left >= 600 + 'px' && bird.style.bottom <= y + 284 + 'px') {
-            direction = 'left'
+            x = 1430
+            bottomTube.style.bottom = getRandomNumber(-220, -20) + 'px'
+            topTube.style.bottom = tubeBottom + 420 + 'px'
         }
     }
 
@@ -181,7 +233,6 @@ function newTubeSet(x,y) {
         direction = null
     }
 
-
     return {
         topTube: topTube,
         bottomTube: bottomTube,
@@ -190,8 +241,10 @@ function newTubeSet(x,y) {
     }
 }
 
-function moveTubes() {
-    tubeSet.moveLeft()
+function moveTubes() { 
+    if (tubeLeft == 500) {
+        tubeSet.moveLeft()
+    }
 }
-moveTubes()
+tubeSet.moveLeft()
 
