@@ -1,24 +1,41 @@
 // variables for bird and tube
 const bird = document.getElementById('bird')
-const goBird = placeBird(500, 400)
 const tubeStartX = 1430
-let tubeStartY = getRandomNumber(-220, -20)
+const goBird = placeBird(600, 300);
 let score = 0
-let gameOver;
+let goBirdGo = true
 let birdLeft;
 let birdBottom;
 let tubeLeft;
 let tubeBottom;
+let tubeSpeed = 1
 
 
+// game Starting function
+
+function birdGo(){
+    if (goBirdGo == true){
+        direction = 'left'
+    } else {
+        tubeSet.stop()
+    }
+}
+birdGo()
 // increase score funcion 
 function scoreInc(){
     score++
-    return console.log('the score is now ' + score)
+    console.log('the score is now ' + score)
+    return 
+
+    //add function to apend value of score to a div conatiner in html body
+
 }
 
 function gameOverMsg(){
     console.log('GAME OVER!')
+    
+    // add function to append message to game message div container in html body that loads after game ends.
+
 }
 
 
@@ -31,7 +48,7 @@ function getRandomNumber(min, max) {
     //The maximum is inclusive and the minimum is inclusive
 }
   
-// function add bird
+// function create bird
 function newBird(url) {
     let bird = document.createElement('img')
     bird.src = url
@@ -50,6 +67,7 @@ function placeBird(x, y) {
     const element = newBird('assets/bird1.png')
 
     function handleDirectionChange(direction) {
+        // changes image source of bird element depending on which direction it is going
         if (direction === null) {
             element.src = 'assets/bird1.png'
         }
@@ -69,11 +87,13 @@ function placeBird(x, y) {
     }
 }
 
-// move functionality
+// move functionality for bird
 
 function move(element) {
     
     element.style.position = 'fixed'
+
+    // following functions moves bird to starting location
 
     function moveToCoordinates(left, bottom) {
         element.style.left = left + 'px'
@@ -82,8 +102,8 @@ function move(element) {
 
     function flyWithSpaceBar(left, bottom, callback){
 
-        let direction = 'south';
-        let x = left;
+        let direction = null; // default direction to appply gravity to the bird
+        let x = left; // x is for initial position (style.left value) and y changes accordingly to the current direction value that is determined by the flybird function 
         let y = bottom;
 
         element.style.left = x + 'px'
@@ -99,10 +119,11 @@ function move(element) {
 
             //collision check/events functions
             function collisionCheck (){
-                // following if statement MUST BE HERE to track 
+                // following if statement MUST BE HERE to track score first before the next if statement potentially ends the function
                 if(birdLeft == tubeLeft + 63){
                     scoreInc()
                 }
+                // once bird passes tubes the if statement ends the function so that the other if statements dont run
                 if(birdLeft >= tubeLeft + 62){
                     return;
                 }
@@ -113,16 +134,18 @@ function move(element) {
                     collisionEvents()
                 }
             } 
-            function collisionEvents(){
-                direction = null
-                gameOver = true
+
+            //triggers when bird collides with tubes
+
+            function collisionEvents(){ 
+                goBirdGo = false
                 tubeSet.stop()
                 gameOverMsg()
             }
             
             // following if statement must go here to stop function from looping after game over
             if (birdLeft >= tubeLeft - 55 ){
-                if(gameOver === true) return
+                if(goBirdGo === false) return
                 collisionCheck()
             }
 
@@ -143,13 +166,17 @@ function move(element) {
                 }
             }
 
+            //to change left and bottom position of element(in this case, bird)
+
             element.style.left = x + 'px'
             element.style.bottom = y + 'px'
 
         }
         
-        setInterval(flyBird, 1)
+        birdInt = setInterval(flyBird, 1)
         
+        // spacebar event listener to make bird go north when pressed.
+
         document.addEventListener('keydown', function(e){
             if(e.repeat) return;;
         
@@ -171,7 +198,7 @@ function move(element) {
         withSpaceBar: flyWithSpaceBar
     }
 }
-// function adding tubes
+// function creating tubes
 
 function newTubes(url) {
     let tube = document.createElement('img')
@@ -190,7 +217,7 @@ function newTubes(url) {
 
 // TEST invoking functions to add tubes
 
-// Create Tubeset
+// Create Tubeset variable
 
 let tubeSet = newTubeSet(tubeStartX, getRandomNumber(-220, -20))
 
@@ -209,32 +236,33 @@ function newTubeSet(x,y) {
     bottomTube.style.bottom = y + 'px'
     
     function moveTubesLeft() {
-        
+
         if (direction === 'left') {
-            x -= 1
+            x -= tubeSpeed
         }
         topTube.style.left = x + 'px'
         bottomTube.style.left = x + 'px'
 
-        // If statements must be here!!!! **************
+        // Following If statements must be here!!!! **************
         // conditions to delete tubes after the tubes reach end of the screen + end game + game continue conditions
         if (topTube.style.left <= 0 + 'px'){
             x = 1430
             bottomTube.style.bottom = getRandomNumber(-220, -20) + 'px';
-            // following line is NECESSARY to apply new tubeBottom Value!!!!!!
+            // following line is NECESSARY to apply new tubeBottom Value for tubeTop to go from!!!!!!
             tubeBottom = parseFloat(bottomTube.style.bottom)
             topTube.style.bottom = tubeBottom + 420 + 'px'
         }
     }
-
-    setInterval(moveTubesLeft, 1)
-
+    //speed of tube movement control
+    setInterval(moveTubesLeft, 1) //replace number value with variable that increases depending on score
+    
+    //applied in later function to initialize the game
     function moveLeft() {
         direction = 'left'
     }
 
     function stop() {
-        direction = null
+        direction = null // stops tubes from moving
     }
 
     return {
@@ -244,9 +272,8 @@ function newTubeSet(x,y) {
         stop: stop
     }
 }
-
+// adds the first set of tubes on the screen
 function moveTubes() { 
    tubeSet.moveLeft()
 }
 moveTubes()
-
