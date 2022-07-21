@@ -4,26 +4,29 @@ const goBird = placeBird(500, 400)
 const tubeStartX = 1430
 let tubeStartY = getRandomNumber(-220, -20)
 let score = 0
+let gameOver;
 let birdLeft;
 let birdBottom;
 let tubeLeft;
 let tubeBottom;
-let tCount= 1
 
 
 // increase score funcion 
 function scoreInc(){
-    for (let n = 0; n < 2; n++){
-        score += n
-    }
+    score++
+    return console.log('the score is now ' + score)
 }
-console.log('the score is now ' + score)
+
+function gameOverMsg(){
+    console.log('GAME OVER!')
+}
+
 
 // math random function learned from 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random'
 function getRandomNumber(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-
+    Math.floor(Math.random() * (max - min + 1) + min);
     return Math.floor(Math.random() * (max - min + 1) + min); // make it so that the number output sticks to a variable!!! CONTINUE HERE!!!!!!! 7/20
     //The maximum is inclusive and the minimum is inclusive
 }
@@ -69,6 +72,7 @@ function placeBird(x, y) {
 // move functionality
 
 function move(element) {
+    
     element.style.position = 'fixed'
 
     function moveToCoordinates(left, bottom) {
@@ -77,6 +81,7 @@ function move(element) {
     }
 
     function flyWithSpaceBar(left, bottom, callback){
+
         let direction = 'south';
         let x = left;
         let y = bottom;
@@ -92,25 +97,33 @@ function move(element) {
             tubeLeft = parseFloat(tubeSet.bottomTube.style.left)
             tubeBottom = parseFloat(tubeSet.bottomTube.style.bottom)
 
-            //collision events functions
+            //collision check/events functions
             function collisionCheck (){
-                if(birdLeft == tubeLeft + 62){
-                    tCount++
+                // following if statement MUST BE HERE to track 
+                if(birdLeft == tubeLeft + 63){
+                    scoreInc()
                 }
                 if(birdLeft >= tubeLeft + 62){
-                    moveTubes()
                     return;
                 }
                 if(birdBottom <= tubeBottom + 367){
                     collisionEvents()
                 }
                 if(birdBottom >= tubeBottom + 460){
-                    collisionEvents() 
+                    collisionEvents()
                 }
             } 
             function collisionEvents(){
                 direction = null
+                gameOver = true
                 tubeSet.stop()
+                gameOverMsg()
+            }
+            
+            // following if statement must go here to stop function from looping after game over
+            if (birdLeft >= tubeLeft - 55 ){
+                if(gameOver === true) return
+                collisionCheck()
             }
 
             if(direction === 'north'){
@@ -130,13 +143,6 @@ function move(element) {
                 }
             }
 
-            if (birdLeft >= tubeLeft - 55 ){
-                collisionCheck()
-            }
-
-
-            
-
             element.style.left = x + 'px'
             element.style.bottom = y + 'px'
 
@@ -145,7 +151,7 @@ function move(element) {
         setInterval(flyBird, 1)
         
         document.addEventListener('keydown', function(e){
-            if(e.repeat) return;
+            if(e.repeat) return;;
         
             if(e.key === ' '){
                 direction = 'north'
@@ -203,11 +209,7 @@ function newTubeSet(x,y) {
     bottomTube.style.bottom = y + 'px'
     
     function moveTubesLeft() {
-        function removeTubes(){
-            topTube.remove();
-            bottomTube.remove();
-        }
-
+        
         if (direction === 'left') {
             x -= 1
         }
@@ -218,7 +220,9 @@ function newTubeSet(x,y) {
         // conditions to delete tubes after the tubes reach end of the screen + end game + game continue conditions
         if (topTube.style.left <= 0 + 'px'){
             x = 1430
-            bottomTube.style.bottom = getRandomNumber(-220, -20) + 'px'
+            bottomTube.style.bottom = getRandomNumber(-220, -20) + 'px';
+            // following line is NECESSARY to apply new tubeBottom Value!!!!!!
+            tubeBottom = parseFloat(bottomTube.style.bottom)
             topTube.style.bottom = tubeBottom + 420 + 'px'
         }
     }
@@ -242,9 +246,7 @@ function newTubeSet(x,y) {
 }
 
 function moveTubes() { 
-    if (tubeLeft == 500) {
-        tubeSet.moveLeft()
-    }
+   tubeSet.moveLeft()
 }
-tubeSet.moveLeft()
+moveTubes()
 
