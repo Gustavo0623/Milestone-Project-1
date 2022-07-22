@@ -114,6 +114,8 @@ function move(element) {
             tubeLeft = parseFloat(tubeSet.bottomTube.style.left)
             tubeBottom = parseFloat(tubeSet.bottomTube.style.bottom)
 
+            // speed increase func. placed here to be part of the interval
+
             function speedInc(){
                 tubeSpeed = tubeSpeed + .5
                 speedCounter = 0

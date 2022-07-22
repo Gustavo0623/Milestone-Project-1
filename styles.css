@@ -9,7 +9,8 @@ header {
     display: flex;
     text-align: center;
     flex-direction: column;
-    justify-items: center;
+    justify-content: space-evenly;
+    background-color: #fff7;
 }
 
 h1,
@@ -38,16 +39,27 @@ p {
     position: fixed;
     width: 100%;
     height: 473px;
-    border-top: 1px solid black;
     overflow: hidden;
 }
 
 /** game msg **/
 
 #winning-msg {
+    background-color: #fff7;
     position: absolute;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: space-evenly;
     align-items: center;
-    min-height: 474 px;
+    width: 40vw;
+    height: 472px;
+    text-align: center;
+    left: 30vw;
+}
+
+.message, 
+#msg, 
+button {
+    display: flex;
 }
