@@ -3,32 +3,29 @@ const bird = document.getElementById('bird')
 const tubeStartX = 1430
 const goBird = placeBird(600, 300);
 let score = 0
+let highScore = 0
 let goBirdGo = true
 let birdLeft;
 let birdBottom;
 let tubeLeft;
 let tubeBottom;
 let tubeSpeed = 1
-
+let speedCounter = 0
+let executed = false
 
 // game Starting function
 
-function birdGo(){
-    if (goBirdGo == true){
-        direction = 'left'
-    } else {
-        tubeSet.stop()
-    }
-}
-birdGo()
+ //test only intended to activate when GO button clicked
 // increase score funcion 
-function scoreInc(){
-    score++
-    console.log('the score is now ' + score)
-    return 
-
-    //add function to apend value of score to a div conatiner in html body
-
+function scoreUp() {
+    if(executed === true) {
+        return
+    } else if(tubeLeft >= 1){ //needs to be >= 1 or else it will up score again when tubeLeft >= 0 and changes executed to false
+        score++
+        console.log('The score is now ' + score)
+        speedCounter++
+        executed = true
+    }
 }
 
 function gameOverMsg(){
@@ -117,14 +114,19 @@ function move(element) {
             tubeLeft = parseFloat(tubeSet.bottomTube.style.left)
             tubeBottom = parseFloat(tubeSet.bottomTube.style.bottom)
 
+            function speedInc(){
+                tubeSpeed = tubeSpeed + .5
+                speedCounter = 0
+            } 
+            if (speedCounter === 5){
+                speedInc()
+            } //change speed increment with score increments 
+
             //collision check/events functions
             function collisionCheck (){
-                // following if statement MUST BE HERE to track score first before the next if statement potentially ends the function
-                if(birdLeft == tubeLeft + 63){
-                    scoreInc()
-                }
                 // once bird passes tubes the if statement ends the function so that the other if statements dont run
                 if(birdLeft >= tubeLeft + 62){
+                    scoreUp()
                     return;
                 }
                 if(birdBottom <= tubeBottom + 367){
@@ -138,8 +140,9 @@ function move(element) {
             //triggers when bird collides with tubes
 
             function collisionEvents(){ 
+                tubeSpeed = 1
                 goBirdGo = false
-                tubeSet.stop()
+                tubeSet.stop() // for double reinforcement
                 gameOverMsg()
             }
             
@@ -246,6 +249,7 @@ function newTubeSet(x,y) {
         // Following If statements must be here!!!! **************
         // conditions to delete tubes after the tubes reach end of the screen + end game + game continue conditions
         if (topTube.style.left <= 0 + 'px'){
+            executed = false
             x = 1430
             bottomTube.style.bottom = getRandomNumber(-220, -20) + 'px';
             // following line is NECESSARY to apply new tubeBottom Value for tubeTop to go from!!!!!!
@@ -254,7 +258,7 @@ function newTubeSet(x,y) {
         }
     }
     //speed of tube movement control
-    setInterval(moveTubesLeft, 1) //replace number value with variable that increases depending on score
+    setInterval(moveTubesLeft, 2) //replace number value with variable that increases depending on score
     
     //applied in later function to initialize the game
     function moveLeft() {
@@ -277,3 +281,14 @@ function moveTubes() {
    tubeSet.moveLeft()
 }
 moveTubes()
+function birdGo(){
+    if (goBirdGo == false){
+        return
+    }
+    if (goBirdGo == true){
+        direction = 'left';
+    } else {
+        tubeSet.stop()
+    }
+}
+birdGo()

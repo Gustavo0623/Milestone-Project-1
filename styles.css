@@ -44,8 +44,10 @@ p {
 
 /** game msg **/
 
-#winning-msg,
-.message,
-button {
-    display: none;
+#winning-msg {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 474 px;
 }
