@@ -1,7 +1,7 @@
 // variables for bird and tube
 const bird = document.getElementById('bird')
 const tubeStartX = 1430;
-const goBird = placeBird(670, 315);
+const goBird = placeBird(500, 315);
 let score = 0;
 let highScore = 0;
 let goBirdGo = false;
@@ -77,10 +77,6 @@ function gameOverMsg(){
             changeMessage('Game Over!', 'Your Score Is', score, 'Try Again?')
         }
     }
-
-    
-    // add function to append message to game message div container in html body that loads after game ends.
-
 }
 
 
@@ -138,21 +134,11 @@ function move(element) {
     
     element.style.position = 'fixed'
 
-    // following functions moves bird to starting location
-
-    function moveToCoordinates(left, bottom) {
-        element.style.left = left + 'px'
-        element.style.bottom = bottom + 'px'
-    }
-
     function flyWithSpaceBar(left, bottom, callback){
 
         let direction = null; // default direction to appply gravity to the bird
         let x = left; // x is for initial position (style.left value) and y changes accordingly to the current direction value that is determined by the flybird function 
         let y = bottom;
-
-        element.style.left = x + 'px'
-        element.style.bottom = y + 'px'
         
         function flyBird(){ 
             // variables for bird and tube positioning set
@@ -248,7 +234,6 @@ function move(element) {
     }
 
     return {
-        to: moveToCoordinates,
         withSpaceBar: flyWithSpaceBar
     }
 }
