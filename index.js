@@ -1,17 +1,17 @@
 // variables for bird and tube
 const bird = document.getElementById('bird')
-const tubeStartX = 1430
+const tubeStartX = 1430;
 const goBird = placeBird(670, 315);
-let score = 0
-let highScore = 0
-let goBirdGo = false
+let score = 0;
+let highScore = 0;
+let goBirdGo = false;
 let birdLeft;
 let birdBottom;
 let tubeLeft;
 let tubeBottom;
-let tubeSpeed = 1
-let speedCounter = 0
-let executed = false
+let tubeSpeed = 1;
+let speedCounter = 0;
+let executed = false;
 
 
 //log scores function
@@ -208,7 +208,7 @@ function move(element) {
                 if (y >= 510){
                     direction = null
                 } else {
-                    y+=1
+                    y+=1.2
                 }
             }
             if(direction === 'south'){
@@ -216,7 +216,7 @@ function move(element) {
                 if (y <= 85){
                     direction = null
                 } else {
-                    y-=1
+                    y-=1.1
                 }
             }
 
