@@ -10,16 +10,22 @@
 </head>
 <body>
     <header>
-        <h1>Go Bird Go!</h1>
-        <p>Developed by Gustavo Martinez</p>
+        <div class="score">
+            <p class="score"> High Score:</p>
+            <p class="score" id="h-score">20</p>
+        </div>
+        <div class="title">
+            <h1><u>Go Bird Go!</u></h1>
+            <p id="dev">Developed by Gustavo Martinez</p>
+        </div>
+        <div class="score">
+            <p class="score">Score:</p>
+            <p class="score" id="c-score">10</p>
+        </div>
     </header>
     <div class="background">
         <!-- background image from "https://www.vecteezy.com/free-vector/nature">Nature Vectors by Vecteezy -->
         <img id="background-image" src="assets/vecteezy_2d-flat-illustration-landscape-background-free-vector_6212133.png" alt="background image">
-    </div>
-    <div class="score">
-        <div class="current-score"></div>
-        <div class="high-score"></div>
     </div>
     <div id="game-items">
         <!-- Bird gif from https://opengameart.org/content/free-game-asset-grumpy-flappy-bird-sprite-sheets -->
@@ -27,8 +33,9 @@
     <div class="start-msg game-over" id="winning-msg">
         <!-- Sample Text! Remove later-->
         <p id="msg">Welcome!</p>
-        <p id="msg-2">Avoid Crashing Into the Tubes!</p>
-        <p id="msg-3">Press down "spacebar" and HOLD to fly and move bird up!</p>
+        <p id="msg-2">Fly: Press + HOLD down "SPACEBAR"</p>
+        <p id="msg-3">RELEASE to glide down!</p>
+        <p id="msg-4">Avoid the incoming tubes!</p>
         <button id="go">Go Bird Go!</button>
     </div>
 </body>

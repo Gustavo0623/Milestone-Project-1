@@ -1,10 +1,10 @@
 // variables for bird and tube
 const bird = document.getElementById('bird')
 const tubeStartX = 1430
-const goBird = placeBird(600, 300);
+const goBird = placeBird(670, 315);
 let score = 0
 let highScore = 0
-let goBirdGo = true
+let goBirdGo = false
 let birdLeft;
 let birdBottom;
 let tubeLeft;
@@ -285,12 +285,12 @@ function moveTubes() {
 moveTubes()
 function birdGo(){
     if (goBirdGo == false){
+        tubeSet.stop()
+        goBird.element.style.display = 'none'
         return
     }
     if (goBirdGo == true){
         direction = 'left';
-    } else {
-        tubeSet.stop()
     }
 }
 birdGo()
