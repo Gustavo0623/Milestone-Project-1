@@ -13,23 +13,71 @@ let tubeSpeed = 1
 let speedCounter = 0
 let executed = false
 
-// game Starting function
 
- //test only intended to activate when GO button clicked
+//log scores function
+
+function logScore(){
+    document.getElementById('c-score').textContent = score
+    console.log('The score is now ' + score)
+}
+
+function logHighScore(){
+    highScore = score
+    document.getElementById('h-score').textContent = highScore
+    console.log('New High Score Is ' + highScore)
+}
+
+//activate when GO button clicked
+function clickBtn(){
+    goBirdGo = true
+    score = 0
+    speedCounter = 0
+    console.log('GO BIRD GO!')
+    logScore()
+    document.getElementById('winning-msg').style.display = 'none'
+    birdGo()
+}
+document.getElementById('go').addEventListener('click', clickBtn)
+
 // increase score funcion 
 function scoreUp() {
     if(executed === true) {
         return
     } else if(tubeLeft >= 1){ //needs to be >= 1 or else it will up score again when tubeLeft >= 0 and changes executed to false
         score++
-        console.log('The score is now ' + score)
+        logScore()
         speedCounter++
         executed = true
     }
 }
 
 function gameOverMsg(){
+    function changeTxt(id, content){
+        document.getElementById(id).textContent = content
+    }
+    function changeMessage(line1, line2, line3, line4){
+        changeTxt('msg', line1)
+        changeTxt('msg-2', line2)
+        changeTxt('msg-3', line3)
+        changeTxt('msg-4', line4)
+    }
+    function hScoreMsg(){
+        changeMessage('Congratulations!', 'New High Score!', 'You Can Do Better Though!', 'Try Again?')
+    }
+    document.getElementById('winning-msg').style.display = 'flex'
     console.log('GAME OVER!')
+    if(score >= 0){
+        if(score === 0 && highScore === 0){
+            hScoreMsg()
+            logHighScore()
+        } else if (score > highScore){
+            hScoreMsg()
+            logHighScore()
+        } else {
+            changeMessage('Game Over!', 'Your Score Is', score, 'Try Again?')
+        }
+    }
+
     
     // add function to append message to game message div container in html body that loads after game ends.
 
@@ -41,7 +89,7 @@ function getRandomNumber(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     Math.floor(Math.random() * (max - min + 1) + min);
-    return Math.floor(Math.random() * (max - min + 1) + min); // make it so that the number output sticks to a variable!!! CONTINUE HERE!!!!!!! 7/20
+    return Math.floor(Math.random() * (max - min + 1) + min);
     //The maximum is inclusive and the minimum is inclusive
 }
   
@@ -145,6 +193,7 @@ function move(element) {
                 tubeSpeed = 1
                 goBirdGo = false
                 tubeSet.stop() // for double reinforcement
+                birdGo()
                 gameOverMsg()
             }
             
@@ -178,7 +227,7 @@ function move(element) {
 
         }
         
-        birdInt = setInterval(flyBird, 1)
+        birdInt = setInterval(flyBird, 2)
         
         // spacebar event listener to make bird go north when pressed.
 
@@ -250,8 +299,8 @@ function newTubeSet(x,y) {
 
         // Following If statements must be here!!!! **************
         // conditions to delete tubes after the tubes reach end of the screen + end game + game continue conditions
-        if (topTube.style.left <= 0 + 'px'){
-            executed = false
+        if (topTube.style.left <= 0 + 'px' || goBirdGo === false){
+            executed = false // to be able to reactivate the score increment function
             x = 1430
             bottomTube.style.bottom = getRandomNumber(-220, -20) + 'px';
             // following line is NECESSARY to apply new tubeBottom Value for tubeTop to go from!!!!!!
@@ -260,7 +309,7 @@ function newTubeSet(x,y) {
         }
     }
     //speed of tube movement control
-    setInterval(moveTubesLeft, 2) //replace number value with variable that increases depending on score
+    setInterval(moveTubesLeft, 3) //replace number value with variable that increases depending on score
     
     //applied in later function to initialize the game
     function moveLeft() {
@@ -283,14 +332,21 @@ function moveTubes() {
    tubeSet.moveLeft()
 }
 moveTubes()
+
+// game Starting function
 function birdGo(){
     if (goBirdGo == false){
         tubeSet.stop()
+        tubeSet.topTube.style.display = 'none'
+        tubeSet.bottomTube.style.display = 'none'
         goBird.element.style.display = 'none'
         return
     }
     if (goBirdGo == true){
-        direction = 'left';
+        tubeSet.topTube.style.display = 'inline'
+        tubeSet.bottomTube.style.display = 'inline'
+        goBird.element.style.display = 'inline'
+        moveTubes()
     }
 }
-birdGo()
+birdGo() // to hide objects on page load
