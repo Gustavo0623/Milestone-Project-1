@@ -156,11 +156,11 @@ function move(element) {
         
         function flyBird(){ 
             // variables for bird and tube positioning set
-            // parseFloat() built in js function that converts property value into number (in this case removing the 'px' from the left and bottom property value)
-            birdLeft = parseFloat(goBird.element.style.left)
-            birdBottom = parseFloat(goBird.element.style.bottom)
-            tubeLeft = parseFloat(tubeSet.bottomTube.style.left)
-            tubeBottom = parseFloat(tubeSet.bottomTube.style.bottom)
+            // ParseInt() built in js function that converts property value into number (in this case removing the 'px' from the left and bottom property value)
+            birdLeft = parseInt(goBird.element.style.left)
+            birdBottom = parseInt(goBird.element.style.bottom)
+            tubeLeft = parseInt(tubeSet.bottomTube.style.left)
+            tubeBottom = parseInt(tubeSet.bottomTube.style.bottom)
 
             // speed increase func. placed here to be part of the interval
 
@@ -304,7 +304,7 @@ function newTubeSet(x,y) {
             x = 1430
             bottomTube.style.bottom = getRandomNumber(-220, -20) + 'px';
             // following line is NECESSARY to apply new tubeBottom Value for tubeTop to go from!!!!!!
-            tubeBottom = parseFloat(bottomTube.style.bottom)
+            tubeBottom = parseInt(bottomTube.style.bottom)
             topTube.style.bottom = tubeBottom + 420 + 'px'
         }
     }
