@@ -1,7 +1,7 @@
 // variables for bird and tube
 const bird = document.getElementById('bird')
-const tubeStartX = 1430;
-const goBird = placeBird(500, 315);
+const tubeStartX = getVWInPx(1);
+const goBird = placeBird(getVWInPx(.37), getVHInPx(.35));
 let score = 0;
 let highScore = 0;
 let goBirdGo = false;
@@ -9,9 +9,13 @@ let birdLeft;
 let birdBottom;
 let tubeLeft;
 let tubeBottom;
+let birdHeight;
+let birdWidth;
 let tubeSpeed = 1;
 let speedCounter = 0;
 let executed = false;
+let tubeHeight;
+let tubeWidth;
 
 
 //log scores function
@@ -88,14 +92,20 @@ function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
     //The maximum is inclusive and the minimum is inclusive
 }
+function getVWInPx(num){
+    return document.documentElement.clientWidth * num
+}
+function getVHInPx(num){
+    return document.documentElement.clientHeight * num
+}
   
 // function create bird
 function newBird(url) {
     let bird = document.createElement('img')
     bird.src = url
     bird.style.position = 'absolute'
-    bird.style.height = '50px'
-    bird.style.width = '68px'
+    bird.style.width = getVWInPx(0.045) + 'px'
+    bird.style.height = getVHInPx(0.065) + 'px'
 
     document.getElementById('game-items').append(bird)
     return bird
@@ -132,7 +142,7 @@ function placeBird(x, y) {
 
 function move(element) {
     
-    element.style.position = 'fixed'
+    element.style.position = 'absolute'
 
     function flyWithSpaceBar(left, bottom, callback){
 
@@ -142,11 +152,15 @@ function move(element) {
         
         function flyBird(){ 
             // variables for bird and tube positioning set
-            // ParseInt() built in js function that converts property value into number (in this case removing the 'px' from the left and bottom property value)
-            birdLeft = parseInt(goBird.element.style.left)
-            birdBottom = parseInt(goBird.element.style.bottom)
-            tubeLeft = parseInt(tubeSet.bottomTube.style.left)
-            tubeBottom = parseInt(tubeSet.bottomTube.style.bottom)
+            // parseFloat() built in js function that converts property value into number (in this case removing the 'px' from the left and bottom property value)
+            birdLeft = parseFloat(goBird.element.style.left)
+            birdBottom = parseFloat(goBird.element.style.bottom)
+            tubeLeft = parseFloat(tubeSet.bottomTube.style.left)
+            tubeBottom = parseFloat(tubeSet.bottomTube.style.bottom)
+            birdWidth = parseFloat(goBird.element.style.width)
+            birdHeight = parseFloat(goBird.element.style.height)
+            tubeHeight = parseFloat(tubeSet.bottomTube.style.height)
+            tubeWidth = parseFloat(tubeSet.bottomTube.style.width)
 
             // speed increase func. placed here to be part of the interval
 
@@ -161,14 +175,14 @@ function move(element) {
             //collision check/events functions
             function collisionCheck (){
                 // once bird passes tubes the if statement ends the function so that the other if statements dont run
-                if(birdLeft >= tubeLeft + 62){
+                if(birdLeft >= tubeLeft + birdWidth){
                     scoreUp()
                     return;
                 }
-                if(birdBottom <= tubeBottom + 367){
+                if(birdBottom < tubeBottom + tubeHeight){
                     collisionEvents()
                 }
-                if(birdBottom >= tubeBottom + 460){
+                if(birdBottom > parseFloat(tubeSet.topTube.style.bottom) - birdHeight){
                     collisionEvents()
                 }
             } 
@@ -184,14 +198,14 @@ function move(element) {
             }
             
             // following if statement must go here to stop function from looping after game over
-            if (birdLeft >= tubeLeft - 55 ){
+            if (birdLeft > tubeLeft - birdWidth){
                 if(goBirdGo === false) return
                 collisionCheck()
             }
 
             if(direction === 'north'){
                 // fly limit
-                if (y >= 510){
+                if (y >= getVHInPx(.612)){
                     direction = null
                 } else {
                     y+=1.2
@@ -199,7 +213,7 @@ function move(element) {
             }
             if(direction === 'south'){
                 // floor collision  stop
-                if (y <= 85){
+                if (y <= getVHInPx(0)){
                     direction = null
                 } else {
                     y-=1.1
@@ -243,8 +257,8 @@ function newTubes(url) {
     let tube = document.createElement('img')
     tube.src = url
     tube.style.position = 'absolute'
-    tube.style.height = '284px'
-    tube.style.width = '72px'
+    tube.style.width = getVWInPx(.06) + 'px'
+    tube.style.height = getVHInPx(.8) + 'px'
     
     document.getElementById('game-items').append(tube)
     return tube
@@ -258,7 +272,7 @@ function newTubes(url) {
 
 // Create Tubeset variable
 
-let tubeSet = newTubeSet(tubeStartX, getRandomNumber(-220, -20))
+let tubeSet = newTubeSet()
 
 // tube movement function
 
@@ -268,8 +282,8 @@ function newTubeSet(x,y) {
 
     let direction = null;
 
-    topTube.style.left = x + 'px'
-    topTube.style.bottom = y + 420 + 'px'
+    topTube.style.left = x + 'px'//
+    topTube.style.bottom = y + getVHInPx(1.05) + 'px'
     topTube.style.transform = 'rotate(180deg)'
     bottomTube.style.left = x + 'px'
     bottomTube.style.bottom = y + 'px'
@@ -277,7 +291,7 @@ function newTubeSet(x,y) {
     function moveTubesLeft() {
 
         if (direction === 'left') {
-            x -= tubeSpeed
+            x -= tubeSpeed 
         }
         topTube.style.left = x + 'px'
         bottomTube.style.left = x + 'px'
@@ -286,11 +300,11 @@ function newTubeSet(x,y) {
         // conditions to delete tubes after the tubes reach end of the screen + end game + game continue conditions
         if (topTube.style.left <= 0 + 'px' || goBirdGo === false){
             executed = false // to be able to reactivate the score increment function
-            x = 1430
-            bottomTube.style.bottom = getRandomNumber(-220, -20) + 'px';
+            x = getVWInPx(1)
+            bottomTube.style.bottom = getVHInPx(getRandomNumber(45, 73) * -.01) + 'px';
             // following line is NECESSARY to apply new tubeBottom Value for tubeTop to go from!!!!!!
-            tubeBottom = parseInt(bottomTube.style.bottom)
-            topTube.style.bottom = tubeBottom + 420 + 'px'
+            tubeBottom = parseFloat(bottomTube.style.bottom)
+            topTube.style.bottom = getVHInPx(1.05) + tubeBottom + 'px'
         }
     }
     //speed of tube movement control
