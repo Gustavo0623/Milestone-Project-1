@@ -104,8 +104,16 @@ function newBird(url) {
     let bird = document.createElement('img')
     bird.src = url
     bird.style.position = 'absolute'
-    bird.style.width = getVWInPx(0.045) + 'px'
-    bird.style.height = getVHInPx(0.065) + 'px'
+    if(parseFloat(screen.width) <= 785){
+        bird.style.height = getVHInPx(0.05) + 'px'
+    } else {
+        bird.style.height = getVHInPx(0.065) + 'px'
+    }
+    if(parseFloat(screen.width) <= 785){
+        bird.style.width = getVWInPx(0.07) + 'px'
+    } else {
+        bird.style.width = getVWInPx(0.045) + 'px'
+    }
 
     document.getElementById('game-items').append(bird)
     return bird
@@ -146,7 +154,7 @@ function move(element) {
 
     function flyWithSpaceBar(left, bottom, callback){
 
-        let direction = null; // default direction to appply gravity to the bird
+        let direction = 'south'; // default direction to appply gravity to the bird
         let x = left; // x is for initial position (style.left value) and y changes accordingly to the current direction value that is determined by the flybird function 
         let y = bottom;
         
@@ -165,7 +173,11 @@ function move(element) {
             // speed increase func. placed here to be part of the interval
 
             function speedInc(){
-                tubeSpeed = tubeSpeed + .5
+                if(parseFloat(screen.width) <= 785){
+                    tubeSpeed = tubeSpeed + .08
+                } else {
+                    tubeSpeed = tubeSpeed + .5
+                }
                 speedCounter = 0
             } 
             if (speedCounter === 5){
@@ -241,8 +253,18 @@ function move(element) {
             callback(direction)
         })
         
-        document.addEventListener('keyup', function(e){
+        document.addEventListener('keyup', function(){
             direction = 'south'
+            callback(direction)
+        })
+        document.addEventListener('click', function(){
+            direction = 'north'
+            if (direction === 'north'){
+                setTimeout(function(){
+                    direction = 'south'
+                    goBird.element.src = 'assets/bird1.png'
+                }, 200)
+            }
             callback(direction)
         })
     }
@@ -291,7 +313,11 @@ function newTubeSet(x,y) {
     function moveTubesLeft() {
 
         if (direction === 'left') {
-            x -= tubeSpeed 
+            if(parseFloat(screen.width) <= 785){
+                x -= tubeSpeed + -.5
+            } else {
+                x -= tubeSpeed 
+            }
         }
         topTube.style.left = x + 'px'
         bottomTube.style.left = x + 'px'
