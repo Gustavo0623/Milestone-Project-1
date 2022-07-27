@@ -39,17 +39,19 @@ h1{
 
 .background {
     position: absolute;
+    display: flex;
     z-index: -1;
-    width: 1600px;
-    height: 100vh;
+    width: 100%;
+    min-height: 87.5%;
+    object-fit: fill;
+    overflow: hidden;
     left: 0vw;
-    bottom: 0vh;
+    top: 0vh;
 }
 
 #background-image {
-    width: 1600px;
-    height: 88vh;
-    position: static;
+    min-height: 100%;
+    width: 100%;
 }
 /**** bird + tube container ****/
 #game-items {
@@ -108,13 +110,14 @@ h1{
     color: #fff9;
     position: absolute;
     left: .5%;
-    bottom: 0;
+    bottom: .5%;
+    z-index: 1;
 }
 
 footer {
     min-width: 100vw;
     height: 15vh;
-    overflow-x: visible;
+    overflow-x: hidden;
     z-index: -1;
 }
 
@@ -123,6 +126,6 @@ footer {
     min-height: 15%;
     width: 110%;
     right: -2%;
-    overflow: visible;
+    overflow: hidden;
     z-index: -1;
 }
