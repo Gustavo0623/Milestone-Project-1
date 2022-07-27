@@ -120,7 +120,7 @@ h1{
     color: #fff9;
     position: absolute;
     left: .5%;
-    bottom: 0vh;
+    bottom: .5vh;
     z-index: 1;
 }
 
