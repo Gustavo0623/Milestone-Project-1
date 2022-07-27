@@ -9,6 +9,7 @@ body {
 /* Title */
 
 header {
+    margin-top: 2vh;
     display: flex;
     text-align: center;
     flex-direction: row;
@@ -21,9 +22,18 @@ header {
 }
 
 .score {
-    font-size: 1.2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 1.3em;
     font-weight: 900;
     min-width: 15%;
+}
+#h-score,
+#c-score {
+    min-height: 1.3em;
+    font-size: 1.3em;
+    margin-top: 0%;
 }
 
 #dev {
@@ -33,6 +43,7 @@ header {
 
 h1{
     font-size: 2.2em;
+    margin-top: 5%;
 }
 
 /* Background setup */
@@ -42,7 +53,7 @@ h1{
     display: flex;
     z-index: -1;
     width: 100%;
-    min-height: 87.5%;
+    height: 88%;
     object-fit: fill;
     overflow: hidden;
     left: 0vw;
@@ -57,7 +68,6 @@ h1{
 #game-items {
     position: sticky;
     max-width: 100vw;
-    max-height: 68.2vh;
     height: 68.2vh;
     overflow: hidden;
 }
@@ -110,7 +120,7 @@ h1{
     color: #fff9;
     position: absolute;
     left: .5%;
-    bottom: .5%;
+    bottom: -1.5vh;
     z-index: 1;
 }
 
@@ -128,4 +138,104 @@ footer {
     right: -2%;
     overflow: hidden;
     z-index: -1;
+}
+
+/***  Screen Size Adjustments  ***/
+@media only screen and (max-width: 1080px) {
+    header{
+        margin-top: 2vh;
+    }
+    #winning-msg {
+        height: 55vh;
+        bottom: 20vh;
+    }
+    #go {
+        margin-bottom: 7%;
+    }
+    #msg-2,
+    #msg-3,
+    #msg-4,
+    #go,
+    #dev {
+        font-size: 1.1em;
+    }
+    .score {
+        font-size: 1.3em;
+        flex-direction: column;
+        text-align: center;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.5%;
+    }
+    #h-score,
+    #c-score {
+        min-height: 1.3em;
+        font-size: 1.3em;
+        margin-top: 0%;
+    }
+    #h-score-sign,
+    #c-score-sign {
+        margin-top: 10%;
+        margin-bottom: 15%;
+    }
+    .title{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-content: space-between;
+    }
+    h1 {
+        font-size: 2em;
+        margin-top: 5%;
+    }
+    #msg {
+        font-size: 1.3em;
+    }
+}
+@media only screen and (max-width: 785px) {
+    header{
+        margin-top: 2vh;
+        height: 20vh
+    }
+    .title{
+        justify-content: center;
+    }
+    h1 {
+        font-size: 1.4em;
+    }
+    .score {
+        justify-content: Center;
+        font-size: 1.1em;
+        max-width: 14.5%;
+    }
+    #c-score, #h-score {
+        font-size: 1em;
+    }
+    #dev {
+        font-size: .6em;
+    }
+    #game-items {
+        height: 68vh;
+    }
+    .background {
+        height: 88vh;
+    }
+    #winning-msg {
+        width: 70vw;
+        left: 15vw;
+    }
+    #msg-2,
+    #msg-3,
+    #msg-4,
+    #go {
+        font-size: 1em;
+    }
+    #h-score,
+    #c-score {
+        padding-top: 30%;
+    }
+    #h-score-sign,
+    #c-score-sign {
+        padding-top: 20%;
+    }
 }
