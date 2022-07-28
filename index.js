@@ -271,7 +271,7 @@ function move(element) {
                 setTimeout(function(){
                     direction = 'south'
                     goBird.element.src = 'assets/bird1.png'
-                }, 100)
+                }, 120)
             }
             callback(direction)
         })
