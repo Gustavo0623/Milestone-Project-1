@@ -220,7 +220,11 @@ function move(element) {
                 if (y >= getVHInPx(.612)){
                     direction = null
                 } else {
-                    y+=1.2
+                    if(parseFloat(screen.width) <= 785){
+                        y+=2
+                    } else {
+                        y+=1.2
+                    }
                 }
             }
             if(direction === 'south'){
@@ -228,7 +232,11 @@ function move(element) {
                 if (y <= getVHInPx(0)){
                     direction = null
                 } else {
-                    y-=1.1
+                    if(parseFloat(screen.width) <= 785){
+                        y-=0.75
+                    } else {
+                        y-=1.1
+                    }
                 }
             }
 
@@ -263,7 +271,7 @@ function move(element) {
                 setTimeout(function(){
                     direction = 'south'
                     goBird.element.src = 'assets/bird1.png'
-                }, 200)
+                }, 100)
             }
             callback(direction)
         })
