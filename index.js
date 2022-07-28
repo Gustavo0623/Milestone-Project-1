@@ -105,12 +105,12 @@ function newBird(url) {
     bird.src = url
     bird.style.position = 'absolute'
     if(parseFloat(screen.width) <= 785){
-        bird.style.height = getVHInPx(0.05) + 'px'
+        bird.style.height = getVHInPx(0.053) + 'px'
     } else {
         bird.style.height = getVHInPx(0.065) + 'px'
     }
     if(parseFloat(screen.width) <= 785){
-        bird.style.width = getVWInPx(0.07) + 'px'
+        bird.style.width = getVWInPx(0.105) + 'px'
     } else {
         bird.style.width = getVWInPx(0.045) + 'px'
     }
@@ -287,9 +287,12 @@ function newTubes(url) {
     let tube = document.createElement('img')
     tube.src = url
     tube.style.position = 'absolute'
-    tube.style.width = getVWInPx(.06) + 'px'
     tube.style.height = getVHInPx(.8) + 'px'
-    
+    if(parseFloat(screen.width) <= 785){
+        tube.style.width = getVWInPx(.095) + 'px'
+    } else {
+        tube.style.width = getVWInPx(.06) + 'px'
+    }
     document.getElementById('game-items').append(tube)
     return tube
 }
