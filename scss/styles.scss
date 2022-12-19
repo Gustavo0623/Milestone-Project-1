@@ -11,7 +11,71 @@ $header-label-size: 1.3em;
 $header-dev-size: 1.2em;
 
 // 10-15 nested selectors, with at least 2 uses of the SCSS ampersand (&)
+body {
 
+    header {
+
+        .score {
+
+            #h-score {
+
+            } 
+            #h-score-sign {
+                
+            }
+            #c-score {
+
+            }
+            #c-score-sign {
+
+            }
+        }
+        .title {
+
+            h1 {
+
+            }
+            #dev {
+
+            }
+        }
+    }
+    .background {
+
+        #background-image {
+
+        }
+    }
+    #game-items {
+
+    }
+    #winning-msg {
+
+        #msg {
+            &-2 {
+                
+            }
+            &-3 {
+
+            }
+            &-4 {
+
+            }
+        }
+        #go {
+
+        }
+    }
+    footer {
+
+        #floor {
+
+        }
+        #attribute {
+
+        }
+    }
+}
 
 // 3-5 SCSS mixins
 
