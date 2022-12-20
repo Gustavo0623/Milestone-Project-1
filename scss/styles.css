@@ -1,1 +1,153 @@
-/*# sourceMappingURL=styles.css.map */
+body {
+  max-width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: fontstack(Arial, Helvetica);
+  padding: 0;
+}
+body img {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+body header {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2vh;
+  text-align: center;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.6666666667);
+  border-radius: 15px;
+  padding: 0% 10%;
+  max-height: 17.5vh;
+}
+body header .score {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 1.3em;
+  font-weight: 900;
+  min-width: 15%;
+}
+body header .score #h-score {
+  min-height: 1.3em;
+  font-size: 1.3em;
+  margin-top: 0%;
+}
+body header .score #h-score-sign {
+  margin-top: 10%;
+  margin-bottom: 15%;
+}
+body header .score #c-score {
+  min-height: 1.3em;
+  font-size: 1.3em;
+  margin-top: 0%;
+}
+body header .score #c-score-sign {
+  margin-top: 10%;
+  margin-bottom: 15%;
+}
+body header .title h1 {
+  font-size: 2.2em;
+  margin-top: 5%;
+}
+body header .title #dev {
+  font-size: 1.2em;
+  font-weight: 550;
+}
+body .background {
+  position: absolute;
+  display: flex;
+  z-index: -1;
+  width: 100%;
+  height: 88%;
+  -o-object-fit: fill;
+     object-fit: fill;
+  overflow: hidden;
+  left: 0vw;
+  top: 0vh;
+}
+body .background #background-image {
+  min-height: 100%;
+  width: 100%;
+}
+body #game-items {
+  position: -webkit-sticky;
+  position: sticky;
+  max-width: 100vw;
+  height: 68.2vh;
+  overflow: hidden;
+}
+body #winning-msg {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.2);
+  position: absolute;
+  justify-items: center;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 30vw;
+  height: 65vh;
+  text-align: center;
+  left: 35vw;
+  bottom: 15vh;
+  border-radius: 15px;
+}
+body #winning-msg #msg {
+  font-weight: 900;
+  font-size: 1.8em;
+}
+body #winning-msg #msg-2 {
+  font-size: 1.2em;
+  font-weight: 550;
+  padding: 0em 2em;
+}
+body #winning-msg #msg-3 {
+  font-size: 1.2em;
+  font-weight: 550;
+  padding: 0em 2em;
+}
+body #winning-msg #msg-4 {
+  font-size: 1.2em;
+  font-weight: 550;
+  padding: 0em 2em;
+}
+body #winning-msg #go {
+  cursor: pointer;
+  font-family: fontstack(Arial, Helvetica);
+  font-size: 1.2em;
+  font-weight: 550;
+  box-shadow: 0px 2px 3px;
+  border-radius: 15px;
+  padding: 2%;
+  background: rgb(54, 157, 248);
+  background: linear-gradient(0deg, #6D96C5 0%, #B0D6FC 100%);
+}
+body footer {
+  min-width: 100vw;
+  height: 15vh;
+  overflow-x: hidden;
+  z-index: -1;
+}
+body footer #floor {
+  position: absolute;
+  min-height: 15%;
+  width: 110%;
+  right: -2%;
+  overflow: hidden;
+  z-index: -1;
+}
+body footer #attribute {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  left: 0.5%;
+  bottom: 0.5vh;
+  z-index: 1;
+}
+
+body {
+  font-size: 2.2em;
+}/*# sourceMappingURL=styles.css.map */

@@ -1,0 +1,21 @@
+// 3-5 SCSS mixins preset group of set rules and properties
+@mixin flex-row(){
+    display: flex;
+    flex-direction: row;
+}
+
+@mixin flex-col(){
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin msg-text-font(){
+    font-size: 1.2em;
+    font-weight: 550;
+}
+
+@mixin score-display(){
+    min-height: 1.3em;
+    font-size: 1.3em;
+    margin-top: 0%;
+}

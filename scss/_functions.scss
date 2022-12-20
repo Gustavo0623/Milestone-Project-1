@@ -1,0 +1,18 @@
+// 2-4 SCSS functions
+@function font-stack($font-family, $fallback-stack: sans-serif) {
+  $font-stack: unquote($font-family);
+  @if $font-family == sans-serif {
+    $font-stack: $fallback-stack;
+  } @else {
+    $font-stack: $font-family + ', ' + $fallback-stack;
+  }
+  @return $font-stack;
+}
+  
+// use if cant figure out other function for now?
+@function multiply($number, $factor) {
+  @return $number * $factor;
+}
+
+// couldnt find another use case for additional functions for now
+// above function can potentially be used to adjust size of a certain element to a fraction of the size of another element.
