@@ -1,12 +1,14 @@
+import { TypeOfExpression } from "typescript";
+
 // variables for bird and tube
 const bird = document.getElementById('bird')
 const tubeStartX = getVWInPx(1);
 const goBird = placeBird(getVWInPx(.37), getVHInPx(.35));
 let scoreDisplay = document.getElementById('c-score') as HTMLElement
 let hScoreDisplay = document.getElementById('h-score') as HTMLElement
-let score:unknown 
+let score:Number 
 score = 0;
-let highScore:unknown = 0;
+let highScore:Number = 0;
 let goBirdGo = false;
 let birdLeft: Number;
 let birdBottom: Number;
@@ -18,31 +20,31 @@ let tubeSpeed = 1;
 let speedCounter = 0;
 let executed = false;
 let tubeHeight: Number;
+let birdInt: Number;
 let tubeWidth;
 
 
 //log scores function
 
-function logScore(){
-    scoreDisplay.innerHTML = score as string
-    console.log('The score is now ' + score)
+function logScore(): void {
+  scoreDisplay.innerHTML = score.toString();
+  console.log(`The score is now ${score}`);
 }
 
-function logHighScore(){
-    highScore = score as number
-    hScoreDisplay.textContent = highScore as string
-    console.log('New High Score Is ' + highScore)
+function logHighScore(): void {
+  highScore = score;
+  hScoreDisplay.textContent = highScore.toString();
+  console.log(`New High Score Is ${highScore}`);
 }
 
-//activate when GO button clicked
-function clickBtn(){
-    goBirdGo = true
-    score = 0
-    speedCounter = 0
-    console.log('GO BIRD GO!')
-    logScore()
-    (document.getElementById('winning-msg') as HTMLElement).style.display = 'none'
-    birdGo()
+function clickBtn(): void {
+  goBirdGo = true;
+  score = 0;
+  speedCounter = 0;
+  console.log('GO BIRD GO!');
+  logScore();
+  (document.getElementById('winning-msg') as HTMLElement).style.display = 'none';
+  birdGo();
 }
 (document.getElementById('go') as HTMLElement).addEventListener('click', clickBtn)
 
@@ -62,16 +64,17 @@ function gameOverMsg(){
     function changeTxt(id: string, content: string){
         (document.getElementById(id) as HTMLElement).textContent = content
     }
-    function changeMessage(line1, line2, line3, line4){
-        changeTxt('msg', line1)
-        changeTxt('msg-2', line2)
-        changeTxt('msg-3', line3)
-        changeTxt('msg-4', line4)
-    }
+    function changeMessage(line1: string, line2: string, line3: string, line4: string): void {
+        changeTxt('msg', line1);
+        changeTxt('msg-2', line2);
+        changeTxt('msg-3', line3);
+        changeTxt('msg-4', line4);
+      }
+      
     function hScoreMsg(){
         changeMessage('Congratulations!', 'New High Score!', 'You Can Do Better Though!', 'Try Again?')
     }
-    document.getElementById('winning-msg').style.display = 'flex'
+    (document.getElementById('winning-msg') as HTMLElement).style.display = 'flex';
     console.log('GAME OVER!')
     if(score >= 0){
         if(score === 0 && highScore === 0){
@@ -81,102 +84,104 @@ function gameOverMsg(){
             hScoreMsg()
             logHighScore()
         } else {
-            changeMessage('Game Over!', 'Your Score Is', score, 'Try Again?')
+            changeMessage('Game Over!', 'Your Score Is', score.toString(), 'Try Again?');
         }
     }
 }
 
 
 // math random function learned from 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random'
-function getRandomNumber(min, max) {
+function getRandomNumber(min:number , max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
     Math.floor(Math.random() * (max - min + 1) + min);
     return Math.floor(Math.random() * (max - min + 1) + min);
     //The maximum is inclusive and the minimum is inclusive
 }
-function getVWInPx(num){
+function getVWInPx(num:number){
     return document.documentElement.clientWidth * num
 }
-function getVHInPx(num){
+function getVHInPx(num:number){
     return document.documentElement.clientHeight * num
 }
   
 // function create bird
-function newBird(url) {
+function newBird(url:string) {
     let bird = document.createElement('img')
     bird.src = url
     bird.style.position = 'absolute'
-    if(parseFloat(screen.width) <= 785){
-        bird.style.height = getVHInPx(0.053) + 'px'
-    } else {
-        bird.style.height = getVHInPx(0.065) + 'px'
-    }
-    if(parseFloat(screen.width) <= 785){
-        bird.style.width = getVWInPx(0.105) + 'px'
-    } else {
-        bird.style.width = getVWInPx(0.045) + 'px'
-    }
+    if (screen.width <= 785) {
+        bird.style.height = `${getVHInPx(0.053)}px`;
+      } else {
+        bird.style.height = `${getVHInPx(0.065)}px`;
+      }
+      
+      if (screen.width <= 785) {
+        bird.style.width = `${getVWInPx(0.105)}px`;
+      } else {
+        bird.style.width = `${getVWInPx(0.045)}px`;
+      }
+      
 
-    document.getElementById('game-items').append(bird)
+    (document.getElementById('game-items') as HTMLElement).append(bird)
     return bird
 }
 
 // place bird function
 
 
-function placeBird(x, y) {
-    const element = newBird('assets/bird1.png')
-
-    function handleDirectionChange(direction) {
-        // changes image source of bird element depending on which direction it is going
-        if (direction === null) {
-            element.src = 'assets/bird1.png'
-        }
-        if (direction === 'north') {
-            element.src = `assets/bird2.png`
-        }
-        if (direction === 'south') {
-            element.src = 'assets/bird1.png'
-            
-        }
+function placeBird(x: number, y: number) {
+    const element = newBird('assets/bird1.png');
+  
+    function handleDirectionChange(direction: string | null) {
+      // changes image source of bird element depending on which direction it is going
+      if (direction === null) {
+        element.src = 'assets/bird1.png';
+      }
+      if (direction === 'north') {
+        element.src = `assets/bird2.png`;
+      }
+      if (direction === 'south') {
+        element.src = 'assets/bird1.png';
+      }
     }
-
-    move(element).withSpaceBar(x, y, handleDirectionChange)
-
+  
+    move(element).withSpaceBar(x, y, handleDirectionChange);
+  
     return {
-        element: element
-    }
-}
+      element: element,
+    };
+  }
+  
 
 // move functionality for bird
 
-function move(element) {
+function move(element: HTMLElement) {
     
     element.style.position = 'absolute'
 
-    function flyWithSpaceBar(left, bottom, callback){
+    function flyWithSpaceBar(left: number, bottom: number, callback: (direction: string | null) => void){
 
-        let direction = 'south'; // default direction to appply gravity to the bird
-        let x = left; // x is for initial position (style.left value) and y changes accordingly to the current direction value that is determined by the flybird function 
-        let y = bottom;
+        let direction: string | null = 'south'; // default direction to appply gravity to the bird
+        let x: number = left; // x is for initial position (style.left value) and y changes accordingly to the current direction value that is determined by the flybird function 
+        let y: number = bottom;
         
         function flyBird(){ 
             // variables for bird and tube positioning set
             // parseFloat() built in js function that converts property value into number (in this case removing the 'px' from the left and bottom property value)
-            birdLeft = parseFloat(goBird.element.style.left)
-            birdBottom = parseFloat(goBird.element.style.bottom)
-            tubeLeft = parseFloat(tubeSet.bottomTube.style.left)
-            tubeBottom = parseFloat(tubeSet.bottomTube.style.bottom)
-            birdWidth = parseFloat(goBird.element.style.width)
-            birdHeight = parseFloat(goBird.element.style.height)
-            tubeHeight = parseFloat(tubeSet.bottomTube.style.height)
-            tubeWidth = parseFloat(tubeSet.bottomTube.style.width)
-
+            let birdLeft: number = parseFloat(goBird.element.style.left)
+            let birdBottom: number = parseFloat(goBird.element.style.bottom)
+            let tubeLeft: number = parseFloat(tubeSet.bottomTube.style.left)
+            let tubeBottom: number = parseFloat(tubeSet.bottomTube.style.bottom)
+            let birdWidth: number = parseFloat(goBird.element.style.width)
+            let birdHeight: number = parseFloat(goBird.element.style.height)
+            let tubeHeight: number = parseFloat(tubeSet.bottomTube.style.height)
+            let tubeWidth: number = parseFloat(tubeSet.bottomTube.style.width)
+    
             // speed increase func. placed here to be part of the interval
-
+    
             function speedInc(){
-                if(parseFloat(screen.width) <= 785){
+                if(screen.width <= 785){
                     tubeSpeed = tubeSpeed + .08
                 } else {
                     tubeSpeed = tubeSpeed + .5
@@ -186,7 +191,7 @@ function move(element) {
             if (speedCounter === 5){
                 speedInc()
             } //change speed increment with score increments 
-
+    
             //collision check/events functions
             function collisionCheck (){
                 // once bird passes tubes the if statement ends the function so that the other if statements dont run
@@ -201,9 +206,9 @@ function move(element) {
                     collisionEvents()
                 }
             } 
-
+    
             //triggers when bird collides with tubes
-
+    
             function collisionEvents(){ 
                 tubeSpeed = 1
                 goBirdGo = false
@@ -217,13 +222,13 @@ function move(element) {
                 if(goBirdGo === false) return
                 collisionCheck()
             }
-
+    
             if(direction === 'north'){
                 // fly limit
                 if (y >= getVHInPx(.612)){
                     direction = null
                 } else {
-                    if(parseFloat(screen.width) <= 785){
+                    if(screen.width <= 785){
                         y+=2
                     } else {
                         y+=1.2
@@ -235,19 +240,19 @@ function move(element) {
                 if (y <= getVHInPx(0)){
                     direction = null
                 } else {
-                    if(parseFloat(screen.width) <= 785){
+                    if(screen.width <= 785){
                         y-=0.75
                     } else {
                         y-=1.1
                     }
                 }
             }
-
+    
             //to change left and bottom position of element(in this case, bird)
-
+    
             element.style.left = x + 'px'
             element.style.bottom = y + 'px'
-
+    
         }
         
         birdInt = setInterval(flyBird, 2)
@@ -286,17 +291,17 @@ function move(element) {
 }
 // function creating tubes
 
-function newTubes(url) {
+function newTubes(url:string) {
     let tube = document.createElement('img')
     tube.src = url
     tube.style.position = 'absolute'
     tube.style.height = getVHInPx(.8) + 'px'
-    if(parseFloat(screen.width) <= 785){
+    if(screen.width <= 785){
         tube.style.width = getVWInPx(.095) + 'px'
     } else {
         tube.style.width = getVWInPx(.06) + 'px'
     }
-    document.getElementById('game-items').append(tube)
+    (document.getElementById('game-items') as HTMLElement).append(tube)
     return tube
 }
 // deleted move function ****
@@ -308,64 +313,70 @@ function newTubes(url) {
 
 // Create Tubeset variable
 
-let tubeSet = newTubeSet()
+let tubeSet: { 
+    topTube: HTMLElement;
+    bottomTube: HTMLElement;
+    moveLeft: () => void;
+    stop: () => void;
+};
 
-// tube movement function
+function newTubeSet(x: number, y: number) {
+    const topTube = newTubes('assets/tube.png');
+    const bottomTube = newTubes('assets/tube.png');
 
-function newTubeSet(x,y) {
-    let topTube = newTubes('assets/tube.png')
-    let bottomTube = newTubes('assets/tube.png')
+    let direction: string | null = null;
 
-    let direction = null;
+    topTube.style.left = x + 'px';
+    topTube.style.bottom = y + getVHInPx(1.05) + 'px';
+    topTube.style.transform = 'rotate(180deg)';
+    bottomTube.style.left = x + 'px';
+    bottomTube.style.bottom = y + 'px';
 
-    topTube.style.left = x + 'px'//
-    topTube.style.bottom = y + getVHInPx(1.05) + 'px'
-    topTube.style.transform = 'rotate(180deg)'
-    bottomTube.style.left = x + 'px'
-    bottomTube.style.bottom = y + 'px'
-    
     function moveTubesLeft() {
-
         if (direction === 'left') {
-            if(parseFloat(screen.width) <= 785){
-                x -= tubeSpeed + -.5
+            if (screen.width <= 785) {
+                x -= tubeSpeed - 0.5;
             } else {
-                x -= tubeSpeed 
+                x -= tubeSpeed;
             }
         }
-        topTube.style.left = x + 'px'
-        bottomTube.style.left = x + 'px'
+        topTube.style.left = x + 'px';
+        bottomTube.style.left = x + 'px';
 
         // Following If statements must be here!!!! **************
         // conditions to delete tubes after the tubes reach end of the screen + end game + game continue conditions
-        if (topTube.style.left <= 0 + 'px' || goBirdGo === false){
-            executed = false // to be able to reactivate the score increment function
-            x = getVWInPx(1)
-            bottomTube.style.bottom = getVHInPx(getRandomNumber(45, 73) * -.01) + 'px';
+        if (parseInt(topTube.style.left) <= 0 || goBirdGo === false) {
+            executed = false; // to be able to reactivate the score increment function
+            x = getVWInPx(1);
+            bottomTube.style.bottom = getVHInPx(getRandomNumber(45, 73) * -0.01) + 'px';
             // following line is NECESSARY to apply new tubeBottom Value for tubeTop to go from!!!!!!
-            tubeBottom = parseFloat(bottomTube.style.bottom)
-            topTube.style.bottom = getVHInPx(1.05) + tubeBottom + 'px'
+            tubeBottom = parseFloat(bottomTube.style.bottom);
+            topTube.style.bottom = getVHInPx(1.05) + tubeBottom.toString() + 'px';
         }
     }
-    //speed of tube movement control
-    setInterval(moveTubesLeft, 3) //replace number value with variable that increases depending on score
-    
-    //applied in later function to initialize the game
+
+    // speed of tube movement control
+    setInterval(moveTubesLeft, 3); // replace number value with variable that increases depending on score
+
+    // applied in later function to initialize the game
     function moveLeft() {
-        direction = 'left'
+        direction = 'left';
     }
 
     function stop() {
-        direction = null // stops tubes from moving
+        direction = null; // stops tubes from moving
     }
 
-    return {
-        topTube: topTube,
-        bottomTube: bottomTube,
-        moveLeft: moveLeft,
-        stop: stop
-    }
+    tubeSet = {
+        topTube,
+        bottomTube,
+        moveLeft,
+        stop,
+    };
+
+    return tubeSet;
 }
+
 // adds the first set of tubes on the screen
 function moveTubes() { 
    tubeSet.moveLeft()
